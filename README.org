@@ -1,6 +1,7 @@
 #+title: md-ts-mode
 #+author: Daniel Nouri
 
+#+html: <a href="https://melpa.org/#/md-ts-mode"><img alt="MELPA" src="https://melpa.org/packages/md-ts-mode-badge.svg"/></a>
 #+html: <a href="https://github.com/dnouri/md-ts-mode/actions/workflows/test.yml"><img alt="Tests" src="https://github.com/dnouri/md-ts-mode/actions/workflows/test.yml/badge.svg"/></a>
 #+html: <a href="https://github.com/dnouri/md-ts-mode/actions/workflows/melpazoid.yml"><img alt="melpazoid" src="https://github.com/dnouri/md-ts-mode/actions/workflows/melpazoid.yml/badge.svg"/></a>
 
@@ -41,50 +42,50 @@ Emacs 29, 30, and 31.
 
 ** Installation
 
-*** Install the package
+Install from [[https://melpa.org/#/md-ts-mode][MELPA]]:
 
-With ~package-vc~ (Emacs 29+):
-
-#+begin_src elisp
-  (package-vc-install "https://github.com/dnouri/md-ts-mode")
+#+begin_src
+M-x package-install RET md-ts-mode RET
 #+end_src
 
-Or clone the repository and add it to ~load-path~:
+Or with =use-package=:
 
-#+begin_src elisp
-  (add-to-list 'load-path "/path/to/md-ts-mode/")
-  (require 'md-ts-mode)
+#+begin_src emacs-lisp
+(use-package md-ts-mode
+  :ensure t)
 #+end_src
 
-Loading the package defines ~md-ts-mode~ and registers its grammar
-recipes, but it does not change how Markdown files are chosen globally.
+If you do not already have MELPA configured, add this to your init
+file:
 
-If you want ~md-ts-mode~ to handle Markdown explicitly, add one line to
-your init file:
-
-#+begin_src elisp
-  (md-ts-mode-enable-global)
+#+begin_src emacs-lisp
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
 #+end_src
 
-With a package install the helper is autoloaded; for the manual
-~load-path~ setup above, keep the ~require~ line.
+Installing or loading ~md-ts-mode~ does not change how Markdown files
+are chosen globally.  If you want ~md-ts-mode~ to handle Markdown
+explicitly, add:
 
-The helper is idempotent.  It adds a =.md= association, remaps
-~markdown-mode~, and on Emacs 31 also prefers ~md-ts-mode~ over the
-built-in ~markdown-ts-mode~.
+#+begin_src emacs-lisp
+(md-ts-mode-enable-global)
+#+end_src
+
+The helper is autoloaded and idempotent.  On Emacs 31 it also prefers
+~md-ts-mode~ over the built-in ~markdown-ts-mode~.
 
 *** Install tree-sitter grammars
 
-The package registers grammar recipes in
-~treesit-language-source-alist~, so after loading:
+After loading ~md-ts-mode~ once, install the Markdown grammars:
 
 #+begin_example
-  M-x treesit-install-language-grammar RET markdown RET
-  M-x treesit-install-language-grammar RET markdown-inline RET
+M-x treesit-install-language-grammar RET markdown RET
+M-x treesit-install-language-grammar RET markdown-inline RET
 #+end_example
 
-If only part of a file is highlighted, one of the grammars is
-probably missing.
+If only part of a file is highlighted, one of the grammars is probably
+missing.
 
 
 ** Embedded code blocks
